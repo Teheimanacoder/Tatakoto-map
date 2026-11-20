@@ -1,2 +1,2 @@
 # Tatakoto-map
-Carte interactive et rrépertoire numérique de l'atoll de Tatakoto, Polynésie française
+Carte interactive et répertoire numérique de l'atoll de Tatakoto, Polynésie française
