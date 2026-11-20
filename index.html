@@ -45,7 +45,25 @@
             padding: 15px;
             color: #555;
         }
-    </style>
+   .filtres {
+    padding: 15px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filtres select {
+    padding: 9px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+#map {
+    height: 75vh;
+    width: 100%;
+} </style>
 </head>
 
 <body>
@@ -54,7 +72,20 @@
         <h1>🌴 Tatakoto Map</h1>
         <p>Notre carte interactive de l'atoll</p>
     </header>
+<div class="filtres">
+    <label for="categorie">Afficher :</label>
 
+    <select id="categorie">
+        <option value="Toutes">Toutes les catégories</option>
+        <option value="Géographie">Géographie</option>
+        <option value="Public">Bâtiments publics</option>
+        <option value="Habitation">Habitations</option>
+        <option value="Technique">Équipements techniques</option>
+        <option value="Nature">Zones naturelles</option>
+        <option value="Réseau">Réseau MeshCore</option>
+        <option value="Transport">Transport</option>
+    </select>
+</div>
     <div id="map"></div>
 
     <footer>
@@ -68,11 +99,93 @@
 
 
 
+
 // 1. Création de la carte
 const map = L.map('map').setView(
     [-17.35, -138.4],
     11
 );
+
+// 2. Fond de carte OpenStreetMap
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19
+    }
+).addTo(map);
+
+// 3. Notre répertoire géographique
+const lieux = [
+    {
+        nom: "Atoll de Tatakoto",
+        latitude: -17.34146,
+        longitude: -138.40164,
+        categorie: "Géographie",
+        description: "Bienvenue sur notre carte interactive."
+    }
+];
+
+// 4. Groupe contenant les marqueurs
+const marqueurs = L.layerGroup().addTo(map);
+
+// 5. Fonction d'affichage des lieux
+function afficherLieux(categorieChoisie) {
+
+    // On efface les anciens marqueurs
+    marqueurs.clearLayers();
+
+    // On parcourt notre répertoire
+    lieux.forEach(function(lieu) {
+
+        // On vérifie la catégorie
+        if (
+            categorieChoisie === "Toutes" ||
+            lieu.categorie === categorieChoisie
+        ) {
+
+            const marqueur = L.marker([
+                lieu.latitude,
+                lieu.longitude
+            ]);
+
+            // Création de la fenêtre informative
+            const contenu = document.createElement("div");
+
+            const titre = document.createElement("h3");
+            titre.textContent = lieu.nom;
+
+            const categorie = document.createElement("p");
+            categorie.textContent = "Catégorie : " + lieu.categorie;
+
+            const description = document.createElement("p");
+            description.textContent = lieu.description;
+
+            contenu.appendChild(titre);
+            contenu.appendChild(categorie);
+            contenu.appendChild(description);
+
+            marqueur.bindPopup(contenu);
+
+            // Ajout du marqueur à la carte
+            marqueur.addTo(marqueurs);
+        }
+    });
+}
+
+// 6. Affichage initial
+afficherLieux("Toutes");
+
+// 7. Écoute du menu déroulant
+const menuCategorie = document.getElementById("categorie");
+
+menuCategorie.addEventListener("change", function() {
+
+    const categorieChoisie = menuCategorie.value;
+
+    afficherLieux(categorieChoisie);
+
+});
 
 // 2. Ajout du fond de carte
 L.tileLayer(
