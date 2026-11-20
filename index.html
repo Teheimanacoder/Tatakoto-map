@@ -146,6 +146,13 @@ const lieux = [
         description: "Zone naturelle (position fictive de démonstration)."
     }
 ];
+// Charger les lieux enregistrés dans le navigateur
+const lieuxSauvegardes = JSON.parse(
+    localStorage.getItem("lieuxTatakoto")
+) || [];
+
+lieux.push(...lieuxSauvegardes);
+        
 // 4. Groupe contenant les marqueurs
 const marqueurs = L.layerGroup().addTo(map);
 
@@ -206,6 +213,42 @@ menuCategorie.addEventListener("change", function() {
     afficherLieux(categorieChoisie);
 
 });
+  // Ajouter un lieu en cliquant sur la carte
+map.on("click", function(e) {
+
+    const nom = prompt("Quel est le nom de ce lieu ?");
+
+    if (!nom || nom.trim() === "") {
+        return;
+    }
+
+    const categorie = prompt(
+        "Quelle catégorie ? Géographie, Public, Habitation, Technique, Nature, Réseau ou Transport"
+    );
+
+    if (!categorie) {
+        return;
+    }
+
+    const nouveauLieu = {
+        nom: nom,
+        latitude: e.latlng.lat,
+        longitude: e.latlng.lng,
+        categorie: categorie,
+        description: "Lieu ajouté sur la carte."
+    };
+
+    lieux.push(nouveauLieu);
+
+    // Enregistrer tous les lieux dans le navigateur
+    localStorage.setItem(
+        "lieuxTatakoto",
+        JSON.stringify(lieux)
+    );
+
+    // Actualiser les marqueurs
+    afficherLieux(menuCategorie.value);
+});      
 
 // 2. Ajout du fond de carte
 L.tileLayer(
