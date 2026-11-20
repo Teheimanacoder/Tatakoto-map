@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tatakoto Map</title>
+
+    <!-- Bibliothèque Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f4f3;
+        }
+
+        header {
+            background: #126b60;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-bottom: 0;
+        }
+
+        #map {
+            height: 75vh;
+            width: 100%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🌴 Tatakoto Map</h1>
+        <p>Notre carte interactive de l'atoll</p>
+    </header>
+
+    <div id="map"></div>
+
+    <footer>
+        Projet numérique communautaire de Tatakoto
+    </footer>
+
+    <!-- Bibliothèque Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Création de la carte
+        const map = L.map('map').setView(
+            [-17.35, -138.4],
+            11
+        );
+
+        // Fond de carte OpenStreetMap
+        L.tileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19
+            }
+        ).addTo(map);
+
+    </script>
+
+</body>
+</html>
