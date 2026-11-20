@@ -102,11 +102,24 @@ lieux.forEach(function(lieu) {
         lieu.longitude
     ]).addTo(map);
 
-    marqueur.bindPopup(
-        "<h3>" + lieu.nom + "</h3>" +
-        "<p><strong>Catégorie :</strong> " + lieu.categorie + "</p>" +
-        "<p>" + lieu.description + "</p>"
-    );
+    
+const contenu = document.createElement("div");
+
+const titre = document.createElement("h3");
+titre.textContent = lieu.nom;
+
+const categorie = document.createElement("p");
+categorie.textContent = "Catégorie : " + lieu.categorie;
+
+const description = document.createElement("p");
+description.textContent = lieu.description;
+
+contenu.appendChild(titre);
+contenu.appendChild(categorie);
+contenu.appendChild(description);
+
+marqueur.bindPopup(contenu);
+
 
 });
 
