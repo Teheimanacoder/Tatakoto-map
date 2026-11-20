@@ -69,7 +69,7 @@ footer {
 <body>
 
     <header>
-        <h1>🌴 Tatakoto Map</h1>
+        <h1>🌴🌴🌴🌴 Tatakoto Map 🌴🌴🌴🌴</h1>
         <p>Notre carte interactive de l'atoll</p>
     </header>
 <div class="filtres">
@@ -197,46 +197,6 @@ L.tileLayer(
 ).addTo(map);
 
 // 3. Création de notre premier lieu
-const lieux = [
-    {
-        nom: "Atoll de Tatakoto",
-        latitude: -17.34146,
-        longitude: -138.40164,
-        categorie: "Géographie",
-        description: "Bienvenue sur notre carte interactive de Tatakoto, dans les Tuamotu."
-    }
-];
-
-// 4. Affichage des lieux sur la carte
-lieux.forEach(function(lieu) {
-
-    const marqueur = L.marker([
-        lieu.latitude,
-        lieu.longitude
-    ]).addTo(map);
-
-    
-const contenu = document.createElement("div");
-
-const titre = document.createElement("h3");
-titre.textContent = lieu.nom;
-
-const categorie = document.createElement("p");
-categorie.textContent = "Catégorie : " + lieu.categorie;
-
-const description = document.createElement("p");
-description.textContent = lieu.description;
-
-contenu.appendChild(titre);
-contenu.appendChild(categorie);
-contenu.appendChild(description);
-
-marqueur.bindPopup(contenu);
-
-
-});
-
-
 
     </script>
 
